@@ -12,7 +12,5 @@ $ java -version
 
 ## 10.1 面对Java 开发者的安装说明
 
-你可以像任何一个标准Java库使用Spring Boot
-
-
+你可以像任何一个标准Java库使用Spring Boot。只需简单地在你的classpath文件中添加相应的`spring-boot-*.jar`
 
