@@ -1,10 +1,10 @@
 # 第11章  开发你的第一个Spring Boot应用
 
-我们首先用Java来开发一个"Hello World!"的网络应用并在其中用到一些Spring Boot的主要功能.我们会用大部分继承编译环境都支持的Maven作为编译工具.
+我们首先用Java来开发一个"Hello World!"的网络应用并在其中用到一些Spring Boot的主要功能.我们会用大部分集成编译环境都支持的Maven作为编译工具.
 
->[spring.io](https://spring.io/)的网站包括很多使用Spring Boot的"入门"教程.如果你想要解决某个具体的问题,请先查看这些示例.你可以到[start.spring.io](https://start.spring.io/)在dependency seacher中选择`web`来快速学习接下来的步骤.这样可以自动生成一个新的项目从而[即刻开始编写代码](#11.3 编写代码)
+>[spring.io](https://spring.io/)的网站包括很多使用Spring Boot的"入门"教程.如果你想要解决某个具体的问题,请先查看这些示例.你可以到[start.spring.io](https://start.spring.io/)在依赖搜索(dependency seacher)中选择`web`来快速学习接下来的步骤.这样可以自动生成一个新的项目从而[即刻开始编写代码](#11.3 编写代码)
 
-在我们开始之前,打开一个终端窗口并确认你的安装了正确版本的Java和Maven.
+在我们开始之前,打开一个终端窗口并确认你安装了正确版本的Java和Maven.
 
 ```
 $ java -version
@@ -68,13 +68,13 @@ Java version: 1.8.0_102, vendor: Oracle Corporation
 </project>
 ```
 
-这应该可以生产一个可编译的项目,你可以通过`mvn package`来进行测试.(你暂时可以忽略"jar will be empty - no content was marked for inclusion!"的警告信息).
+这应该可以产生一个可编译的项目,你可以通过`mvn package`来进行测试.(你暂时可以忽略"jar will be empty - no content was marked for inclusion!"的警告信息).
 
 >到这一步,你应该已经可以将项目引入集成开发环境的(大部分现代Java集成开发环境内置了Maven支持).为了简便起见,我们会继续在这个例子中使用纯文本编辑器.
 
 ## 11.2 加入类路径依赖
 
-Spring Boot提供了很多"起始包(Starters)"来帮助用户将jar文件加入类路径.我们的示例应用已经在`POM`的`parent`部分使用了`spring-boot-starter-parent`.`spring-boot-start-parent`是一个特殊的起始包,提供并帮助配置了很多Maven的默认值.它还提供了一个`dependency-management`的部分,这一部分可以帮助开发者将很多依赖的库`版本`进行提前配置，这样开发者便可以不需要再在`pom.xml`声明依赖库的版本.
+Spring Boot提供了很多"起始包(Starters)"来帮助用户将jar文件加入类路径.我们的示例应用已经在`POM`的`parent`部分使用了`spring-boot-starter-parent`.`spring-boot-start-parent`是一个特殊的起始包,提供并帮助配置了很多Maven的默认值.它还提供了一个`dependency-management`的部分,这一部分可以帮助开发者将很多依赖的库的`版本`进行自动配置，这样开发者便可以不需要再在`pom.xml`声明依赖库的版本.
 
 其他"起始包"会提供某一类具体应用可能用到的所需要的库.因为我们开发的是一个网络应用,我们将加入`spring-boot-starter-web`依赖 -- 但是首先，我们先看一下我们项目目前的情况.
 
@@ -99,7 +99,7 @@ $ mvn dependency:tree
 
 ## 11.3 编写代码
 
-为了完成我们的应用,我们需要创建一个Java文件.在默认情况下,Maven将会将`src/main/java`中的源代码进行编译，所以你需要遵循这个文件夹结构,然后创建一个文件并命名为`src/main/java/Example.java`:
+为了完成我们的应用,我们需要创建一个Java文件.在默认情况下,Maven会将`src/main/java`目录中的源代码进行编译，所以你需要遵循这个文件夹结构,然后创建一个文件并命名为`src/main/java/Example.java`:
 
 ```
 import org.springframework.boot.*;
@@ -123,11 +123,11 @@ public class Example {
 }
 ```
 
-即使并没有太多的代码,这里却有很多的知识点,让我们一步一步的来分析一下重点部分.
+即使并没有太多的代码,这里却有很多的知识点,让我们一步一步的来分析一下各个重点部分.
 
 ### 11.3.1 关于@RestController和@RequestMapping注释
 
-在`Example` 类中的第一个注释是`@RestController`.这是一个已知的复合型的注释.它给读代码的人是一个提示,而且对于Spring这个类也具有一个很具体的用处.在我们这个示例中,这一个类是一个web `@Controller`,所以Spring在处理传入的Web请求时会使用到这个类.
+在`Example` 类中的第一个注释是`@RestController`.这是一个已知的复合型的注释.它给读代码的人是一个提示,而且对于Spring,这个类也具有一个很具体的用处.在我们这个示例中,这一个类是一个web `@Controller`,所以Spring便会在处理传入的Web请求时使用到这个类.
 
 `@RequestMapping`注释提供了"路由"信息.它会告知Spring对于任何HTTP带有路径"/"的请求，Sping应该将请求映射到`home`方法上.这个`@RestController`注释来告知Spring将请求的字符串结果直接返回到请求的呼叫者.
 
@@ -138,15 +138,15 @@ public class Example {
 第二个类一层的注释是`@EnableAutoConfiguration`.这个注释告诉Spring Boot去根据你所添加的依赖的类从而最大限度的自动对Spring进行配置.因为`spring-boot-starter-web`在依赖库中加入了Tomcat和Spring MVC,自动配置会以开发网络应用(web application)的模式来对Spring行好配置.
 
 >**起始包以及自动配置**
-从设计角度自动配置和起始包是会在一起很好的工作,但是这两部分并不是绝对的捆绑和依赖关系.你可以自己选择在起始包以外的所需要的依赖库,然后Spring Boot仍然会根据依赖库尽最大努力自动配置你的应用.
+从设计角度,自动配置和起始包是会在一起很好的工作,但是这两部分并不是绝对的捆绑和依赖关系.你可以自己选择在起始包以外的所需要的依赖库,然后Spring Boot仍然会根据所加入的依赖库尽最大努力自动配置你的应用.
 
 ### 11.3.3 main方法
 
-我们应用的最后一部分是`main`方法.这是一个标准的Java程序的入口点.我们的main方法通过运行`run`来委托给Spring Boot的`SpringApplication`类.`SpringApplication`会启动我们的应用,启动Spring从而启动已经自动配置好的Tomcat网络服务器.我们需要讲`Example.class`以参数的形式传递给`run`方法,从而使`SpringApplication`知道哪个是主要的Spring组成构件.`args`数组同时也会将任何命令行的参数传递进去.
+我们应用的最后一部分是`main`方法.这是一个标准的Java程序的入口点.我们的main方法通过运行`run`来委托给Spring Boot的`SpringApplication`类.`SpringApplication`会启动我们的应用,启动Spring从而启动已经自动配置好的Tomcat网络服务器.我们需要将`Example.class`以参数的形式传递给`run`方法,从而使`SpringApplication`知道哪个是主要的Spring组成构件.`args`数组同时也会将任何命令行的参数传递进去.
 
 ## 11.4 运行示例程序
 
-到此,我们的应用应该已经可以工作了.因为我们在POM中使用了`spring-boot-starter-parent`,我们会有一个很实用的`run`目标让我们可以用来启动我们的应用.在应用程序的根目录下输入`mvn spring-boot:run`来启动应用程序.
+到此,我们的应用应该已经可以工作了.因为我们在POM中使用了`spring-boot-starter-parent`,我们会有一个很实用的`run`目标(goal)让我们可以用来启动我们的应用.在应用程序的根目录下输入`mvn spring-boot:run`来启动应用程序.
 
 ```
 $ mvn spring-boot:run
@@ -164,7 +164,7 @@ $ mvn spring-boot:run
 ........ Started Example in 2.222 seconds (JVM running for 6.514)
 ```
 
-如果你打开一个浏览器窗口并在地址栏输入[localhost:8080](localhost:8080),你应该可以看到一下的结果.
+如果你打开一个浏览器窗口并在地址栏输入[localhost:8080](localhost:8080),你应该可以看到以下的结果.
 
 ```
 Hello World!
@@ -177,7 +177,7 @@ Hello World!
 在示例的最后,我们来创建一个完全独立并可在生产环境中运行的可执行Jar文件.可执行Jar文件(也叫做"fat jars/胖jar")是一个包含了运行你的应用程序所需要的所有依赖库以及依赖的Jar文件的打包文件.
 
 >**可运行Jar文件及Java**
-Java没有提供一个标准化的运行嵌套Jar文件的方式(比如说在一个Jar文件里的另一个Jar文件).这样对想要发布自我包含的的应用程序造成了一定的问题.
+Java没有提供一个标准化的运行嵌套Jar文件的方式(比如说包含在一个Jar文件里的另一个Jar文件).这样对想要发布自我包含的的应用程序造成了一定的问题.
 要解决这个问题,许多开发人员选择使用"uber" jar文件. Uber jar文件指的是将所有依赖的Jar包以及库内的类文件打包到一个集成文件内.这种方法的问题在于,开发者将会很难区分在应用中使用了哪些库.另一个就是如果相同的文件名(但文件内容不同)在多个Jar中被使用时，也会造成问题.
 Spring Boot使用了[另一种方式](http://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/reference/htmlsingle/#executable-jar)来让开发者进行直接的Jar文件嵌套.
 
@@ -193,7 +193,7 @@ Spring Boot使用了[另一种方式](http://docs.spring.io/spring-boot/docs/2.0
 </build>
 ```
 
->`spring-boot-starter-parent`POM包括一个`<executions>`配置来适配`repackage`目标.如果你没有使用parent POM那么你需要自己来声明这一部分.更多详情请参考[这里的插件信息](http://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/maven-plugin//usage.html).
+>`spring-boot-starter-parent`POM包括一个`<executions>`配置来适配`repackage`目标.如果你没有使用parent POM那么你需要自己来声明这一部分配置.更多详情请参考[这里的插件信息](http://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/maven-plugin//usage.html).
 
 保存你的`pom.xml`文件然后在命令行运行`mvn package`.
 ```
@@ -214,7 +214,7 @@ $ mvn package
 [INFO] ------------------------------------------------------------------------
 ```
 
-如果你检查`target`目录那么你会发现`myproject-0.0.1-SNAPSHOT.jar`.这个文件应该有10MB左右大小.如果你想看一下文件里面的内容可以用命令`jar tvf`:
+如果你检查`target`目录,那么你会发现`myproject-0.0.1-SNAPSHOT.jar`.这个文件应该有10MB左右大小.如果你想看一下文件里面的内容可以用命令`jar tvf`:
 ```
 $ jar tvf target/myproject-0.0.1-SNAPSHOT.jar
 ```
