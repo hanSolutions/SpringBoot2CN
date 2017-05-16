@@ -16,3 +16,5 @@ $ java -version
 
 Spring Boot没有什么特别的。 不需要任何特别的工具整合，所以你可以用任何IDE或者文本编辑器来编写和调式。
 
+虽然你仅仅需要Spring Boot jar复制，我们还是建议你使用有以来管理的创建工具（如： Maven 或 Gradle）。
+
