@@ -10,7 +10,9 @@ $ java -version
 
 如果你是Java开发的新手，或者你只是尝试一下Spring Boot。你可能会想先试试Spring Boot CLI。要不然，就要阅读一下典型安装说明。
 
-## 10.1
+## 10.1 面对Java 开发者的安装说明
+
+你可以像任何一个标准Java库使用Spring Boot
 
 
 
