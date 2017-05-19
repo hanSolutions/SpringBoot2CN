@@ -14,7 +14,7 @@ $ java -version
 
 Spring Boot不需要什么特殊的集成工具。 你可以用任何IDE或者文本编辑器来编写和调式， Spring Boot并没有什么特别的，你可以像运行任何其他Java程序一样运行和调试它。
 
-虽然你可以通过复制Spring Boot jar（来将Spring Boot增加到你的classpath中），我们还是建议你使用支持依赖管理的构建工具（如： Maven 或 Gradle）。
+虽然你可以通过复制Spring Boot库文件（来将Spring Boot增加到你的classpath中），我们还是建议你使用支持依赖管理的构建工具（如： Maven 或 Gradle）。
 
 ### Maven安装
 Spring Boot和Apache Maven 3.2及以上的版本兼容。如果你没有安装Maven，你可以从maven.apache.org找到相关的指南。
