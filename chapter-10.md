@@ -1,6 +1,6 @@
 ## 第10章 安装Spring Boot
 
-Spring Boot 可以和常见的Java开发工具一同使用，也可以从命令行工具直接安装。不管怎样，你必须提前安装Java SDK 1.8或更高本版。 如果你已经安装了Java， 你可以使用以下命令查看当前的Java版本：
+Spring Boot 可以和常见的Java开发工具一同使用，也可以从Spring Boot CLI（SDKMAN）直接安装。不管怎样，你必须提前安装Java SDK 1.8或更高本版。 如果你已经安装了Java， 你可以使用以下命令查看当前的Java版本：
 
 ```
 $ java -version
