@@ -14,7 +14,7 @@ $ java -version
 
 Spring Boot不需要什么特殊的集成工具。 你可以用任何IDE或者文本编辑器来编写和调式， Spring Boot并没有什么特别的，你可以像运行任何其他Java程序一样运行和调试它。
 
-虽然你可以通过复制Spring Boot库文件（来将Spring Boot增加到你的classpath中），我们还是建议你使用支持依赖管理的构建工具（如： Maven 或 Gradle）。
+虽然你可以通过复制Spring Boot库文件（来将Spring Boot增加到你的类路径中），我们还是建议你使用支持依赖管理的构建工具（如： Maven 或 Gradle）。
 
 ### Maven安装
 Spring Boot和Apache Maven 3.2及以上的版本兼容。如果你没有安装Maven，你可以从maven.apache.org找到相关的指南。
@@ -24,7 +24,7 @@ Spring Boot和Apache Maven 3.2及以上的版本兼容。如果你没有安装Ma
 
 Spring Boot的依赖们都会在`org.springframework.boot`的这个`groupId`下。通常，你的Maven Pom文件会继承`spring-boot-starter-parent`项目，应用一个或者多个“Starter”的依赖。Sprint Boot也提供了一个可选的Maven插件用于创建可执行的jar文件。
 
-这里我们提供一个标准的`pom.xml`文件：
+这里我们提供一个常见`pom.xml`文件作为参考：
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -98,7 +98,7 @@ Spring Boot的依赖都在`org.springframework.boot`这个`group`下。通常你
 在你想要构建一个项目的时候，Gradle Wrapper 提供了一个很好的获取Gradle的方式。它是你和你的代码一同提交的用于启动构建过程的一小段脚本和库。
 ```
 
-这里有一个标准的`build.gradle`文件
+这里有一个常见的`build.gradle`文件作为参考：
 
 ```
 buildscript {
