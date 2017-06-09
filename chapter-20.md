@@ -1,6 +1,6 @@
 #第20章 开发者工具
 
-Spring Boot包含了一些额外的工具集，用于提升体验Spring Boot应用的开发乐趣。`spring-boot-devtools`模块可以被包含到任何模块中来提供development-time特性，你只需简单的将该模块的依赖添加到你的构建中：
+Spring Boot包含了一些额外的工具集，用于提升体验Spring Boot应用的开发乐趣。`spring-boot-devtools`模块可以被包含到任何模块中来提供开发时的特性，你只需简单的将该模块的依赖添加到你的构建中：
 
 **Maven.**
 ```xml
@@ -26,11 +26,11 @@ dependencies {
 
 ##20.1 默认属性
 
-Spring Boot支持的一些库（libraries）使用缓存提高性能，比如，[模板引擎（template engines）](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-template-engines)会缓存以编译的模版来避免反复地解析模版文件。当要提供静态资源（文件）时，Spring MVC还能够添加HTTP缓存头字段
+Spring Boot支持的一些库（libraries）使用缓存提高性能，比如，[模板引擎（template engines）](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-spring-mvc-template-engines)会缓存已经编译的模版来避免反复地解析模版文件。当要提供静态资源（文件）时，Spring MVC还能够添加HTTP缓存头字段
 
 虽然缓存会给实际产品带来很大的好处，但它会降低开发效率在产品的开发阶段。它会妨碍你对你的程序修改结果及时可见。因此，开发者工具（spring-boot-devtools）默认禁用缓存这个功能。
 
-缓存选项通常配置在application.properties文件中，比如Thymeleaf提供了spring.thymeleaf.cache属性，相比于手动设置这些属性，spring-boot-devtools模块会自动应用敏感的development-time配置。
+缓存选项通常配置在`application.properties`文件中，比如Thymeleaf提供了`spring.thymeleaf.cache`属性，相比于手动设置这些属性，`spring-boot-devtools`模块会自动应用敏感的开发时的配置。
 
 ![star_icon](icons\star_icon.png) 查看DevToolsPropertyDefaultsPostProcessor获取完整的被应用的属性列表。
 
@@ -40,7 +40,7 @@ Spring Boot支持的一些库（libraries）使用缓存提高性能，比如，
 
 
 >**触发重启**
-由于DevTools监控类路径（classpath）下的资源，所以唯一触发重启的方式就是更新类路径（classpath）。引起类路径更新的方式取决于你使用的IDE，在Eclipse里，保存一个修改的文件将引起类路径更新，并触发重启。在IntelliJ IDEA中，构建工程`（Build → Make Project）`有同样效果。
+由于DevTools监控类路径（classpath）下的资源，所以唯一触发重启的方式就是更新类路径（classpath）。引起类路径更新的方式取决于你使用的IDE，在Eclipse里，保存一个修改的文件将更新类路径，并触发重启。在IntelliJ IDEA中，构建工程`（Build → Make Project）`有同样效果。
 
 
 ![leaf_icon](icons\leaf_icon.png) 你也可以通过支持的构建工具（比如，Maven和Gradle）启动应用，只要开启fork功能，因为DevTools需要一个隔离的应用类加载器执行正确的操作。Gradle和Maven默认支持该行为，只要把DevTools加在类路径中。
@@ -54,7 +54,7 @@ Spring Boot支持的一些库（libraries）使用缓存提高性能，比如，
 
 
 >**Restart vs Reload**  Spring Boot提供的重启技术是通过使用两个类加载器实现的。没有变化的类（比如那些第三方jars）会加载进一个基础（basic）classloader，正在开发的类会加载进一个重启（restart）classloader。当应用重启时，restart类加载器会被丢弃，并创建一个新的。这种方式意味着应用重启通常比冷启动（cold starts）快很多，因为基础类加载器已经生成并且可用。
->如果发现重启对于你的应用来说不够快，或遇到类加载的问题，那你可以考虑重载技术，比如JRebel，这些技术是通过重写它们加载过的类实现的。Spring Loaded提供了另一种选择，然而很多框架不支持它，也得不到商业支持。
+>如果发现重启对于你的应用来说不够快，或遇到类加载的问题，那你可以考虑重载技术，比如JRebel，这些技术是通过重写它们加载过的类实现的。
 
 
 
@@ -75,7 +75,7 @@ spring.devtools.restart.exclude=static/**,public/**
 
 如果不想使用重启特性，你可以通过`spring.devtools.restart.enabled`属性来禁用它，通常情况下可以在`application.properties`文件中设置（依旧会初始化重启类加载器，但它不会监控文件变化）。
 
-如果需要彻底禁用重启支持，比如，不能跟某个特殊库一块工作，你需要在调用`SpringApplication.run(…​)`之前设置一个系统属性，如下：
+如果需要彻底禁用重启支持，比如，由于不能跟某个特殊库一块工作，你需要在调用`SpringApplication.run(…​)`之前设置一个系统属性，如下：
 
 ```
 public static void main(String[] args) {
@@ -97,7 +97,7 @@ public static void main(String[] args) {
 正如以上[Restart vs Reload](RestartVsReload)章节讨论的，重启功能是通过两个类加载器实现的。对于大部分应用来说是没问题的，但有时候它可能导致类加载问题。
 
 默认情况，在IDE里打开的项目会通过'restart'类加载器加载，其他常规的.jar文件会使用'basic'类加载器加载。如果你工作在一个多模块的项目下，并且不是每个模块都导入IDE里，你可能需要自定义一些东西。你需要创建一个`META-INF/spring-devtools.properties`文件.
-`spring-devtools.properties`文件可以包含`restart.exclude.，restart.include.`前缀的属性。include元素定义了那些需要加载进'restart'类加载器中的实体，exclude元素定义了那些需要加载进'basic'类加载器中的实体，这些属性的值是一个将应用到classpath的正则表达式。
+`spring-devtools.properties`文件可以包含`restart.exclude.，restart.include.`前缀的属性。include元素定义了那些需要加载进'restart'类加载器中的实体，exclude元素定义了那些需要加载进'basic'类加载器中的实体，这些属性的值是一个用来检测classpath的正则表达式。
 
 例如：
 ```
@@ -116,7 +116,7 @@ restart.include.projectcommon=/mycorp-myproj-[\\w-]+\.jar
 
 ##20.3 LiveReload(重新加载)
 
-spring-boot-devtools模块包含一个内嵌的LiveReload服务器，它可以在资源改变时触发浏览器刷新。LiveReload浏览器扩展可以免费从[livereload.com](http://livereload.com/extensions/)站点获取，支持Chrome，Firefox，Safari等浏览器。
+`spring-boot-devtools`模块包含一个内嵌的LiveReload服务器，它可以在资源改变时触发浏览器刷新。LiveReload浏览器扩展可以免费从[livereload.com](http://livereload.com/extensions/)站点获取，支持Chrome，Firefox，Safari等浏览器。
 
 如果不想在运行应用时启动LiveReload服务器，你可以将`spring.devtools.livereload.enabled`属性设置为`false`。
 
@@ -124,7 +124,7 @@ spring-boot-devtools模块包含一个内嵌的LiveReload服务器，它可以�
 
 ##20.4 全局设置
 
-在$HOME文件夹下添加一个`.spring-boot-devtools.properties`的文件可以用来配置全局的devtools设置（注意文件名以"."开头），添加进该文件的任何属性都会应用到你机器上使用该devtools的 **所有** Spring Boot应用。例如，想使用触发器文件进行重启，可以添加如下配置：
+在`$HOME`文件夹下添加一个`.spring-boot-devtools.properties`的文件可以用来配置全局的devtools设置（注意文件名以"."开头），添加进该文件的任何属性都会应用到你机器上使用该devtools的 **所有** Spring Boot应用。例如，想使用触发器文件进行重启，可以添加如下配置：
 
 **~/.spring-boot-devtools.properties.**
 
@@ -201,7 +201,7 @@ spring.devtools.remote.secret=mysecret
 
 Java的远程调试在诊断远程应用问题时很有用，不幸的是，当应用部署在你的数据中心外时，它并不总能够启用远程调试。如果你使用基于容器的技术，比如Docker，远程调试设置起来非常麻烦。
 
-为了绕过这些限制，devtools支持基于HTTP的远程调试通道。远程客户端在`8000`端口提供一个本地server，这样远程debugger就可以连接了。一旦连接建立，调试信息就通过HTTP发送到远程应用。你可以使用`spring.devtools.remote.debug.local-port`属性设置不同的端口。
+为了绕过这些限制，devtools支持基于HTTP的远程调试通道。远程客户端在`8000`端口提供一个本地服务器，这样远程debugger就可以连接了。一旦连接建立，调试信息就通过HTTP发送到远程应用。你可以使用`spring.devtools.remote.debug.local-port`属性设置不同的端口。
 
 你需要确保远程应用启动时开启了远程调试功能，通常，这可以通过配置`JAVA_OPTS`实现，例如，对于Cloud Foundry，你可以将以下内容添加到`manifest.yml`：
 
@@ -212,6 +212,6 @@ Java的远程调试在诊断远程应用问题时很有用，不幸的是，当�
 ```
 ![star_icon](icons\star_icon.png) 注意你不需要传递一个`address=NNNN`的配置项到`-Xrunjdwp`，如果遗漏了，java会使用一个随机可用端口。
 
-![leaf_icon](icons\leaf_icon.png) 调试基于Internet的远程服务可能很慢，你可能需要增加IDE的超时时间。例如，在Eclipse中你可以从`Preferences…`选择`Java -> Debug`，改变`Debugger timeout (ms)`为更合适的值（`60000`在多数情况下就能解决）。
+![leaf_icon](icons\leaf_icon.png) 通过Internet来调试远程服务可能会很慢，你可能需要增加IDE的超时时间。例如，在Eclipse中你可以从`Preferences…`选择`Java -> Debug`，改变`Debugger timeout (ms)`为更合适的值（`60000`在多数情况下就能解决）。
 
-![exclamatory_icon_icon](icons\exclamatory_icon.png) 当在IntelliJ IDE中使用远程调试通道时。所有的断点都只能针对线程来设置而不是VM。默认下，IntelliJ会暂停整个VM而不是只暂停触发到断点的进程。这有一个不好的副作用，当暂停管理远程调试通道的进程时，你的debug会话期（session）会停止。详情请参考[IDEA-165769].(https://youtrack.jetbrains.com/issue/IDEA-165769)
+![exclamatory_icon_icon](icons\exclamatory_icon.png) 当在IntelliJ IDE中使用远程调试通道时。所有的断电应该设置成暂停线程而不是暂停VM。默认下，IntelliJ会暂停整个VM而不是只暂停触发到断点的进程。这有一个不好的副作用，当暂停管理远程调试通道的进程时，你的debug会话期（session）会停止。详情请参考[IDEA-165769].(https://youtrack.jetbrains.com/issue/IDEA-165769)
