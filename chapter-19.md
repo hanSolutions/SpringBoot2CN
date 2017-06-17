@@ -8,7 +8,7 @@
 
 在IDE里，Spring Boot应用程序可以以简易Java应用程序来执行。但是，你需要先导入程序项目。不同IDE和搭建系统的导入方式存异。大部分IDE可以直接导入Maven项目，例如Eclipse使用者可以在文件下拉菜单里选择导入 - 已有的Maven项目。
 
-加入你无法直接导入项目至IDE，你可以使用搭建插件来生成IDE的附加数据。Maven有Eclipse和IDEA的插件，Gradle对于不同的IDE也有不同的插件。
+假如你无法直接导入项目至IDE，你可以使用搭建插件来生成IDE的附加数据。Maven有Eclipse和IDEA的插件，Gradle对于不同的IDE也有不同的插件。
 
 假如你无意间执行网页应用程序两次，你会看到一个错误提示"Port already in use"（接口已被使用）。STS使用者与其用Run键，可使用Relaunch键，这样可以确保关闭已经打开的实例。
 
@@ -35,7 +35,7 @@ Spring Boot Maven插件包含一个```run```的目标可以用来编译及执行
 $ mvn spring-boot:run
 ```
 
-你可能也会用到一个很有用的操作系统环境变量：
+你可能也会用到一些有用的系统环境变量如下：
 
 ```js
 $ export MAVEN_OPTS=-Xmx1024m
